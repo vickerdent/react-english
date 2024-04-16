@@ -1,6 +1,7 @@
 import React from 'react'
 import {Controller} from 'react-hook-form'
 import {Editor} from '@tinymce/tinymce-react'
+import conf from '../conf/conf'
 
 function TinyEditor({name, control, label, defaultValue = ""}) {
   return (
@@ -11,7 +12,7 @@ function TinyEditor({name, control, label, defaultValue = ""}) {
         <Controller name={name || "plot"} control={control} render={({field: {onChange}}) => (
             <Editor 
                 initialValue={defaultValue}
-                apiKey='e35y769lc1v1oiw3vdmywljun41fvud4fh93zdhdabotf6zl'
+                apiKey={conf.tinymce_apikey}
                 init={{
                     branding: false, height: 500, menubar: true,
                     plugins: [
