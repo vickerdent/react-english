@@ -28,7 +28,7 @@ export class Service {
             return await this.databases.listDocuments(
                     conf.appwrite_database_id,
                     conf.appwrite_collection_id,
-                    [Query.contains("movie_title", keywords)]
+                    keywords.length > 0 ? [Query.contains("movie_title", keywords)] : undefined
                 )
         } catch (error) {
             console.log("Appwrite service :: getMovies() :: ", error);
@@ -36,13 +36,13 @@ export class Service {
         }
     }
 
-    async addMovie({movie_title, movie_director, movie_plot, featured_image, user_id, movie_year, movie_cast=[]}) {
+    async addMovie({movie_title, movie_director, movie_plot, featured_image, userId, movie_year, movie_cast}) {
         try {
             return await this.databases.createDocument(
                 conf.appwrite_database_id,
                 conf.appwrite_collection_id,
                 ID.unique(),
-                {movie_title, movie_director, movie_plot, featured_image, user_id, movie_cast, movie_year}
+                {movie_title, movie_director, movie_plot, featured_image, userId, movie_cast, movie_year}
             )
         } catch (error) {
             console.log("Appwrite service :: addMovie() :: ", error);
@@ -50,13 +50,13 @@ export class Service {
         }
     }
 
-    async updateMovie(uniqueID, {movie_title, movie_director, movie_plot, featured_image, movie_year, movie_cast=[]}) {
+    async updateMovie(uniqueID, {movie_title, movie_director, movie_plot, featured_image, movie_year, movie_cast}) {
         try {
             return await this.databases.updateDocument(
                 conf.appwrite_database_id,
                 conf.appwrite_collection_id,
                 uniqueID,
-                {movie_title, movie_director, movie_plot, featured_image, user_id, movie_cast, movie_year}
+                {movie_title, movie_director, movie_plot, featured_image, userId, movie_cast, movie_year}
             )
         } catch (error) {
             console.log("Appwrite service :: updateMovie() :: ", error);
